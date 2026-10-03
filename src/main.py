@@ -6,6 +6,7 @@ from hangul_transformer import (
     transform_random_shift,
 )
 from dubeolsik_converter import convert_to_dubeolsik
+from password_composer import compose_password_text
 
 
 def main() -> None:
@@ -21,7 +22,7 @@ def main() -> None:
         print(f"추출 문자열: {fragment}")
 
         if contains_shift_input(fragment):
-            final_text = fragment
+            transformed_text = fragment
 
             print(
                 "Shift 변형: 이미 대문자 입력 요소가 "
@@ -29,14 +30,16 @@ def main() -> None:
             )
 
         elif contains_shift_candidate(fragment):
-            final_text = transform_random_shift(
+            transformed_text = transform_random_shift(
                 fragment
             )
 
-            print(f"Shift 변형: {final_text}")
+            print(
+                f"Shift 변형: {transformed_text}"
+            )
 
         else:
-            final_text = fragment
+            transformed_text = fragment
 
             print(
                 "Shift 변형: 현재 추출 문자열에는 "
@@ -44,11 +47,17 @@ def main() -> None:
                 "글자가 없습니다."
             )
 
-        actual_password = convert_to_dubeolsik(
-            final_text
+        display_text = compose_password_text(
+            transformed_text
         )
 
-        print(f"최종 문자열: {final_text}")
+        actual_password = convert_to_dubeolsik(
+            display_text
+        )
+
+        print(
+            f"최종 문자열: {display_text}"
+        )
 
         # 개발 중 검증용.
         # 최종 GUI에서는 사용자에게 표시하지 않는다.

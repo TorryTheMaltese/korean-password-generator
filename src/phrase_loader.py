@@ -1,5 +1,3 @@
-# src/phrase_loader.py
-
 from pathlib import Path
 
 

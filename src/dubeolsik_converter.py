@@ -1,5 +1,3 @@
-# src/dubeolsik_converter.py
-
 from hangul_transformer import (
     HANGUL_BASE,
     HANGUL_END,

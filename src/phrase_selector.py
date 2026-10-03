@@ -1,5 +1,3 @@
-# src/phrase_selector.py
-
 import secrets
 
 
