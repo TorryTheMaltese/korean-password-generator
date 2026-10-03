@@ -2,7 +2,6 @@ import secrets
 
 from hangul_transformer import contains_shift_candidate
 
-
 DEFAULT_MIN_LENGTH = 3
 DEFAULT_MAX_LENGTH = 5
 
@@ -12,11 +11,7 @@ def normalize_phrase(phrase: str) -> str:
     원본 문구에서 완성형 한글 음절만 남긴다.
     """
 
-    return "".join(
-        char
-        for char in phrase
-        if "가" <= char <= "힣"
-    )
+    return "".join(char for char in phrase if "가" <= char <= "힣")
 
 
 def build_fragment_candidates(
@@ -34,20 +29,13 @@ def build_fragment_candidates(
     """
 
     if not phrases:
-        raise ValueError(
-            "원본 문구 목록이 비어 있습니다."
-        )
+        raise ValueError("원본 문구 목록이 비어 있습니다.")
 
     if min_length < 1:
-        raise ValueError(
-            "최소 길이는 1 이상이어야 합니다."
-        )
+        raise ValueError("최소 길이는 1 이상이어야 합니다.")
 
     if max_length < min_length:
-        raise ValueError(
-            "최대 길이는 최소 길이보다 "
-            "크거나 같아야 합니다."
-        )
+        raise ValueError("최대 길이는 최소 길이보다 " "크거나 같아야 합니다.")
 
     candidates = []
 
@@ -66,17 +54,10 @@ def build_fragment_candidates(
             min_length,
             actual_max_length + 1,
         ):
-            for start_index in range(
-                len(normalized) - length + 1
-            ):
-                fragment = normalized[
-                    start_index:start_index + length
-                ]
+            for start_index in range(len(normalized) - length + 1):
+                fragment = normalized[start_index : start_index + length]
 
-                if (
-                    require_shift
-                    and not contains_shift_candidate(fragment)
-                ):
+                if require_shift and not contains_shift_candidate(fragment):
                     continue
 
                 candidates.append(fragment)
@@ -110,8 +91,6 @@ def select_random_fragment(
                 "문자열이 없습니다."
             )
 
-        raise ValueError(
-            "조건을 만족하는 한글 문자열이 없습니다."
-        )
+        raise ValueError("조건을 만족하는 한글 문자열이 없습니다.")
 
     return secrets.choice(candidates)

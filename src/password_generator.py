@@ -55,17 +55,12 @@ def generate_password(
         require_shift=require_uppercase,
     )
 
-    if (
-        require_uppercase
-        and not contains_shift_input(fragment)
-    ):
+    if require_uppercase and not contains_shift_input(fragment):
         fragment = transform_random_shift(fragment)
 
     display_text = compose_password_text(fragment)
 
-    actual_password = convert_to_dubeolsik(
-        display_text
-    )
+    actual_password = convert_to_dubeolsik(display_text)
 
     validation = validate_password(
         actual_password,

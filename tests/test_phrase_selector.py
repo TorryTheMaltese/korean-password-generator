@@ -2,7 +2,6 @@ import sys
 import unittest
 from pathlib import Path
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = PROJECT_ROOT / "src"
 
@@ -21,9 +20,7 @@ class TestPhraseSelector(unittest.TestCase):
 
     def test_normalize_phrase(self):
         self.assertEqual(
-            normalize_phrase(
-                "하늘이 열린다! 123"
-            ),
+            normalize_phrase("하늘이 열린다! 123"),
             "하늘이열린다",
         )
 
@@ -62,9 +59,7 @@ class TestPhraseSelector(unittest.TestCase):
             require_shift=True,
         )
 
-        self.assertTrue(
-            candidates
-        )
+        self.assertTrue(candidates)
 
     def test_no_shift_candidate(self):
         phrases = [

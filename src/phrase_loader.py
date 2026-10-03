@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 DEFAULT_PHRASE_FILE = Path("phrases.txt")
 
 
@@ -40,15 +39,9 @@ def load_phrases(file_path: str | Path = DEFAULT_PHRASE_FILE) -> list[str]:
         raise ValueError(f"지정한 경로가 파일이 아닙니다: {path}")
 
     with path.open("r", encoding="utf-8") as file:
-        phrases = [
-            line.strip()
-            for line in file
-            if line.strip()
-        ]
+        phrases = [line.strip() for line in file if line.strip()]
 
     if not phrases:
-        raise ValueError(
-            f"파일에 사용할 수 있는 문구가 없습니다: {path}"
-        )
+        raise ValueError(f"파일에 사용할 수 있는 문구가 없습니다: {path}")
 
     return phrases

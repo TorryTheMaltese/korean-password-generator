@@ -1,6 +1,5 @@
 import secrets
 
-
 DEFAULT_MIN_DIGITS = 2
 DEFAULT_MAX_DIGITS = 4
 
@@ -19,27 +18,14 @@ def generate_digits(
     """
 
     if min_count < 1:
-        raise ValueError(
-            "숫자 최소 개수는 1 이상이어야 합니다."
-        )
+        raise ValueError("숫자 최소 개수는 1 이상이어야 합니다.")
 
     if max_count < min_count:
-        raise ValueError(
-            "숫자 최대 개수는 최소 개수보다 "
-            "크거나 같아야 합니다."
-        )
+        raise ValueError("숫자 최대 개수는 최소 개수보다 " "크거나 같아야 합니다.")
 
-    count = (
-        min_count
-        + secrets.randbelow(
-            max_count - min_count + 1
-        )
-    )
+    count = min_count + secrets.randbelow(max_count - min_count + 1)
 
-    return "".join(
-        secrets.choice("0123456789")
-        for _ in range(count)
-    )
+    return "".join(secrets.choice("0123456789") for _ in range(count))
 
 
 def generate_symbols(
@@ -52,32 +38,17 @@ def generate_symbols(
     """
 
     if not allowed_symbols:
-        raise ValueError(
-            "사용 가능한 특수문자가 없습니다."
-        )
+        raise ValueError("사용 가능한 특수문자가 없습니다.")
 
     if min_count < 1:
-        raise ValueError(
-            "특수문자 최소 개수는 1 이상이어야 합니다."
-        )
+        raise ValueError("특수문자 최소 개수는 1 이상이어야 합니다.")
 
     if max_count < min_count:
-        raise ValueError(
-            "특수문자 최대 개수는 최소 개수보다 "
-            "크거나 같아야 합니다."
-        )
+        raise ValueError("특수문자 최대 개수는 최소 개수보다 " "크거나 같아야 합니다.")
 
-    count = (
-        min_count
-        + secrets.randbelow(
-            max_count - min_count + 1
-        )
-    )
+    count = min_count + secrets.randbelow(max_count - min_count + 1)
 
-    return "".join(
-        secrets.choice(allowed_symbols)
-        for _ in range(count)
-    )
+    return "".join(secrets.choice(allowed_symbols) for _ in range(count))
 
 
 def compose_password_text(
@@ -101,9 +72,7 @@ def compose_password_text(
     """
 
     if not hangul_text:
-        raise ValueError(
-            "한글 문자열이 비어 있습니다."
-        )
+        raise ValueError("한글 문자열이 비어 있습니다.")
 
     digits = generate_digits(
         min_digits,
@@ -116,8 +85,4 @@ def compose_password_text(
         max_symbols,
     )
 
-    return (
-        hangul_text
-        + digits
-        + symbols
-    )
+    return hangul_text + digits + symbols

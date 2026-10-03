@@ -2,7 +2,6 @@ import sys
 import unittest
 from pathlib import Path
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = PROJECT_ROOT / "src"
 
@@ -16,38 +15,22 @@ from password_validator import validate_password
 class TestPasswordValidator(unittest.TestCase):
 
     def test_valid_password(self):
-        result = validate_password(
-            "Rkakemr34##"
-        )
+        result = validate_password("Rkakemr34##")
 
-        self.assertTrue(
-            result.is_valid
-        )
+        self.assertTrue(result.is_valid)
 
-        self.assertTrue(
-            result.has_uppercase
-        )
+        self.assertTrue(result.has_uppercase)
 
-        self.assertTrue(
-            result.has_lowercase
-        )
+        self.assertTrue(result.has_lowercase)
 
-        self.assertTrue(
-            result.has_digit
-        )
+        self.assertTrue(result.has_digit)
 
-        self.assertTrue(
-            result.has_special
-        )
+        self.assertTrue(result.has_special)
 
     def test_missing_uppercase(self):
-        result = validate_password(
-            "abcdef12!"
-        )
+        result = validate_password("abcdef12!")
 
-        self.assertFalse(
-            result.is_valid
-        )
+        self.assertFalse(result.is_valid)
 
         self.assertIn(
             "영문 대문자가 1개 이상 필요합니다.",
@@ -55,13 +38,9 @@ class TestPasswordValidator(unittest.TestCase):
         )
 
     def test_missing_digit(self):
-        result = validate_password(
-            "Abcdefgh!"
-        )
+        result = validate_password("Abcdefgh!")
 
-        self.assertFalse(
-            result.is_valid
-        )
+        self.assertFalse(result.is_valid)
 
         self.assertIn(
             "숫자가 1개 이상 필요합니다.",
@@ -69,13 +48,9 @@ class TestPasswordValidator(unittest.TestCase):
         )
 
     def test_too_short(self):
-        result = validate_password(
-            "Ab1!"
-        )
+        result = validate_password("Ab1!")
 
-        self.assertFalse(
-            result.is_valid
-        )
+        self.assertFalse(result.is_valid)
 
         self.assertIn(
             "최소 8자 이상이어야 합니다.",

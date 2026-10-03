@@ -1,6 +1,5 @@
 import secrets
 
-
 HANGUL_BASE = 0xAC00
 HANGUL_END = 0xD7A3
 
@@ -29,10 +28,10 @@ SHIFT_INITIALS = {
 
 # 일반 초성 → Shift 초성
 SHIFT_INITIAL_MAP = {
-    0: 1,    # ㄱ → ㄲ
-    3: 4,    # ㄷ → ㄸ
-    7: 8,    # ㅂ → ㅃ
-    9: 10,   # ㅅ → ㅆ
+    0: 1,  # ㄱ → ㄲ
+    3: 4,  # ㄷ → ㄸ
+    7: 8,  # ㅂ → ㅃ
+    9: 10,  # ㅅ → ㅆ
     12: 13,  # ㅈ → ㅉ
 }
 
@@ -59,10 +58,7 @@ def is_hangul_syllable(char: str) -> bool:
     문자가 완성형 한글 음절인지 확인한다.
     """
 
-    return (
-        len(char) == 1
-        and HANGUL_BASE <= ord(char) <= HANGUL_END
-    )
+    return len(char) == 1 and HANGUL_BASE <= ord(char) <= HANGUL_END
 
 
 def decompose_syllable(
@@ -74,23 +70,15 @@ def decompose_syllable(
     """
 
     if not is_hangul_syllable(char):
-        raise ValueError(
-            f"완성형 한글 음절이 아닙니다: {char}"
-        )
+        raise ValueError(f"완성형 한글 음절이 아닙니다: {char}")
 
     syllable_index = ord(char) - HANGUL_BASE
 
-    initial_index = (
-        syllable_index // SYLLABLES_PER_INITIAL
-    )
+    initial_index = syllable_index // SYLLABLES_PER_INITIAL
 
-    medial_index = (
-        syllable_index % SYLLABLES_PER_INITIAL
-    ) // FINAL_COUNT
+    medial_index = (syllable_index % SYLLABLES_PER_INITIAL) // FINAL_COUNT
 
-    final_index = (
-        syllable_index % FINAL_COUNT
-    )
+    final_index = syllable_index % FINAL_COUNT
 
     return (
         initial_index,
@@ -110,19 +98,13 @@ def compose_syllable(
     """
 
     if not 0 <= initial_index < INITIAL_COUNT:
-        raise ValueError(
-            "잘못된 초성 인덱스입니다."
-        )
+        raise ValueError("잘못된 초성 인덱스입니다.")
 
     if not 0 <= medial_index < MEDIAL_COUNT:
-        raise ValueError(
-            "잘못된 중성 인덱스입니다."
-        )
+        raise ValueError("잘못된 중성 인덱스입니다.")
 
     if not 0 <= final_index < FINAL_COUNT:
-        raise ValueError(
-            "잘못된 종성 인덱스입니다."
-        )
+        raise ValueError("잘못된 종성 인덱스입니다.")
 
     codepoint = (
         HANGUL_BASE
@@ -146,14 +128,9 @@ def has_shift_input(char: str) -> bool:
     if not is_hangul_syllable(char):
         return False
 
-    initial_index, medial_index, _ = (
-        decompose_syllable(char)
-    )
+    initial_index, medial_index, _ = decompose_syllable(char)
 
-    return (
-        initial_index in SHIFT_INITIALS
-        or medial_index in SHIFT_MEDIALS
-    )
+    return initial_index in SHIFT_INITIALS or medial_index in SHIFT_MEDIALS
 
 
 def contains_shift_input(text: str) -> bool:
@@ -162,10 +139,7 @@ def contains_shift_input(text: str) -> bool:
     하나 이상 포함되어 있는지 확인한다.
     """
 
-    return any(
-        has_shift_input(char)
-        for char in text
-    )
+    return any(has_shift_input(char) for char in text)
 
 
 def can_transform_to_shift(char: str) -> bool:
@@ -177,9 +151,7 @@ def can_transform_to_shift(char: str) -> bool:
     if not is_hangul_syllable(char):
         return False
 
-    initial_index, medial_index, _ = (
-        decompose_syllable(char)
-    )
+    initial_index, medial_index, _ = decompose_syllable(char)
 
     return (
         initial_index in SHIFT_INITIALS
@@ -195,10 +167,7 @@ def contains_shift_candidate(text: str) -> bool:
     Shift 형태로 변형 가능한 글자가 있는지 확인한다.
     """
 
-    return any(
-        can_transform_to_shift(char)
-        for char in text
-    )
+    return any(can_transform_to_shift(char) for char in text)
 
 
 def get_shift_transformations(
@@ -222,19 +191,13 @@ def get_shift_transformations(
     if not is_hangul_syllable(char):
         return []
 
-    initial_index, medial_index, final_index = (
-        decompose_syllable(char)
-    )
+    initial_index, medial_index, final_index = decompose_syllable(char)
 
     transformations = []
 
-    shifted_initial = SHIFT_INITIAL_MAP.get(
-        initial_index
-    )
+    shifted_initial = SHIFT_INITIAL_MAP.get(initial_index)
 
-    shifted_medial = SHIFT_MEDIAL_MAP.get(
-        medial_index
-    )
+    shifted_medial = SHIFT_MEDIAL_MAP.get(medial_index)
 
     # 초성만 변환
     if shifted_initial is not None:
@@ -257,10 +220,7 @@ def get_shift_transformations(
         )
 
     # 초성과 중성을 동시에 변환
-    if (
-        shifted_initial is not None
-        and shifted_medial is not None
-    ):
+    if shifted_initial is not None and shifted_medial is not None:
         transformations.append(
             compose_syllable(
                 shifted_initial,
@@ -285,9 +245,7 @@ def transform_random_shift(text: str) -> str:
     """
 
     if not text:
-        raise ValueError(
-            "변환할 문자열이 비어 있습니다."
-        )
+        raise ValueError("변환할 문자열이 비어 있습니다.")
 
     if contains_shift_input(text):
         return text
@@ -295,29 +253,20 @@ def transform_random_shift(text: str) -> str:
     candidates: list[tuple[int, str]] = []
 
     for index, char in enumerate(text):
-        transformations = (
-            get_shift_transformations(char)
-        )
+        transformations = get_shift_transformations(char)
 
         for transformed_char in transformations:
-            candidates.append(
-                (index, transformed_char)
-            )
+            candidates.append((index, transformed_char))
 
     if not candidates:
         raise ValueError(
-            "Shift 입력이 필요한 형태로 "
-            "변환할 수 있는 글자가 없습니다."
+            "Shift 입력이 필요한 형태로 " "변환할 수 있는 글자가 없습니다."
         )
 
-    selected_index, transformed_char = (
-        secrets.choice(candidates)
-    )
+    selected_index, transformed_char = secrets.choice(candidates)
 
     characters = list(text)
 
-    characters[selected_index] = (
-        transformed_char
-    )
+    characters[selected_index] = transformed_char
 
     return "".join(characters)

@@ -2,7 +2,6 @@ import sys
 import unittest
 from pathlib import Path
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = PROJECT_ROOT / "src"
 
@@ -21,37 +20,23 @@ from hangul_transformer import (
 class TestHangulTransformer(unittest.TestCase):
 
     def test_existing_shift_input(self):
-        self.assertTrue(
-            contains_shift_input("예쁜")
-        )
+        self.assertTrue(contains_shift_input("예쁜"))
 
-        self.assertTrue(
-            contains_shift_input("쌀")
-        )
+        self.assertTrue(contains_shift_input("쌀"))
 
     def test_no_shift_input(self):
-        self.assertFalse(
-            contains_shift_input("하늘")
-        )
+        self.assertFalse(contains_shift_input("하늘"))
 
     def test_shift_candidate(self):
-        self.assertTrue(
-            contains_shift_candidate("바다")
-        )
+        self.assertTrue(contains_shift_candidate("바다"))
 
-        self.assertTrue(
-            contains_shift_candidate("배")
-        )
+        self.assertTrue(contains_shift_candidate("배"))
 
     def test_no_shift_candidate(self):
-        self.assertFalse(
-            contains_shift_candidate("하늘")
-        )
+        self.assertFalse(contains_shift_candidate("하늘"))
 
     def test_multiple_shift_transformations(self):
-        transformations = set(
-            get_shift_transformations("배")
-        )
+        transformations = set(get_shift_transformations("배"))
 
         self.assertEqual(
             transformations,

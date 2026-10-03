@@ -2,7 +2,6 @@ import sys
 import unittest
 from pathlib import Path
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = PROJECT_ROOT / "src"
 
@@ -24,9 +23,7 @@ class TestPasswordGenerator(unittest.TestCase):
         ]
 
         for _ in range(50):
-            result = generate_password(
-                phrases
-            )
+            result = generate_password(phrases)
 
             self.assertTrue(
                 result.validation.is_valid,
@@ -47,9 +44,7 @@ class TestPasswordGenerator(unittest.TestCase):
         ]
 
         with self.assertRaises(ValueError):
-            generate_password(
-                phrases
-            )
+            generate_password(phrases)
 
 
 if __name__ == "__main__":
