@@ -14,14 +14,14 @@ def generate_digits(
     max_count: int = DEFAULT_MAX_DIGITS,
 ) -> str:
     """
-    지정된 범위의 길이로 숫자 문자열을 생성한다.
+    지정된 범위의 길이로 숫자 문자열을 생성함.
     """
 
     if min_count < 1:
         raise ValueError("숫자 최소 개수는 1 이상이어야 합니다.")
 
     if max_count < min_count:
-        raise ValueError("숫자 최대 개수는 최소 개수보다 " "크거나 같아야 합니다.")
+        raise ValueError("숫자 최대 개수는 최소 개수보다 크거나 같아야 합니다.")
 
     count = min_count + secrets.randbelow(max_count - min_count + 1)
 
@@ -34,7 +34,7 @@ def generate_symbols(
     max_count: int = DEFAULT_MAX_SYMBOLS,
 ) -> str:
     """
-    허용된 특수문자 목록에서 무작위 문자열을 생성한다.
+    허용된 특수문자 목록에서 무작위 문자열을 생성함.
     """
 
     if not allowed_symbols:
@@ -44,7 +44,7 @@ def generate_symbols(
         raise ValueError("특수문자 최소 개수는 1 이상이어야 합니다.")
 
     if max_count < min_count:
-        raise ValueError("특수문자 최대 개수는 최소 개수보다 " "크거나 같아야 합니다.")
+        raise ValueError("특수문자 최대 개수는 최소 개수보다 크거나 같아야 합니다.")
 
     count = min_count + secrets.randbelow(max_count - min_count + 1)
 
@@ -54,35 +54,51 @@ def generate_symbols(
 def compose_password_text(
     hangul_text: str,
     *,
+    include_digits: bool = True,
     min_digits: int = DEFAULT_MIN_DIGITS,
     max_digits: int = DEFAULT_MAX_DIGITS,
+    include_symbols: bool = True,
     min_symbols: int = DEFAULT_MIN_SYMBOLS,
     max_symbols: int = DEFAULT_MAX_SYMBOLS,
     allowed_symbols: str = DEFAULT_SYMBOLS,
 ) -> str:
     """
-    기억용 한글 문자열에 숫자와 특수문자를 조합한다.
+    기억용 한글 문자열에 숫자와 특수문자를 조합함.
 
     기본 형식:
         한글 + 숫자 + 특수문자
 
+    숫자 또는 특수문자는 옵션에 따라 제외 가능함.
+
     예:
-        까마득
+        까마득 + 숫자 + 특수문자
         → 까마득34##
+
+        까마득 + 숫자
+        → 까마득34
+
+        까마득 + 특수문자
+        → 까마득##
     """
 
     if not hangul_text:
         raise ValueError("한글 문자열이 비어 있습니다.")
 
-    digits = generate_digits(
-        min_digits,
-        max_digits,
-    )
+    digits = ""
 
-    symbols = generate_symbols(
-        allowed_symbols,
-        min_symbols,
-        max_symbols,
-    )
+    if include_digits:
+        digits = generate_digits(
+            min_digits,
+            max_digits,
+        )
+
+    symbols = ""
+
+    if include_symbols:
+        symbols = generate_symbols(
+            allowed_symbols,
+            min_symbols,
+            max_symbols,
+        )
 
     return hangul_text + digits + symbols
