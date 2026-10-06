@@ -37,13 +37,13 @@ class PasswordGeneratorApp:
         self.phrase_file_var = tk.StringVar(value=str(load_last_phrase_file()))
 
         self.min_length_var = tk.IntVar(value=3)
-        self.max_length_var = tk.IntVar(value=5)
+        self.max_length_var = tk.IntVar(value=4)
 
         self.require_uppercase_var = tk.BooleanVar(value=True)
 
         self.include_digits_var = tk.BooleanVar(value=True)
         self.min_digits_var = tk.IntVar(value=2)
-        self.max_digits_var = tk.IntVar(value=4)
+        self.max_digits_var = tk.IntVar(value=2)
 
         self.include_symbols_var = tk.BooleanVar(value=True)
         self.min_symbols_var = tk.IntVar(value=1)
@@ -510,7 +510,7 @@ class PasswordGeneratorApp:
             result_row,
             text="복사",
             command=self._copy_result,
-            bootstyle="light-outline",
+            bootstyle="dark-outline",
             width=8,
         )
 
@@ -648,7 +648,7 @@ class PasswordGeneratorApp:
 
             self.copy_button.configure(
                 text="복사",
-                bootstyle="light-outline",
+                bootstyle="dark-outline",
             )
 
         except (
@@ -697,7 +697,7 @@ class PasswordGeneratorApp:
 
         self.copy_button.configure(
             text="복사",
-            bootstyle="light-outline",
+            bootstyle="dark-outline",
         )
 
 
